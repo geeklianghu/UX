@@ -1,0 +1,28 @@
+Sub send_summerized()
+'Get the mails in a list "BASE Email"
+'Send the worksheet "AAA"
+
+annee = Sheets("Dashboard").Range("B8").Value
+periode = Sheets("Dashboard").Range("B6").Value
+chemin = Sheets("Dashboard").Cells(4, 6).Value
+
+
+Sheets("BASE Email").Activate
+For i = 2 To 3
+        servicemail = Cells(i, 2).Value
+Next i
+Sheets("AAA").copy
+
+' send email
+str_cheminFichier = chemin & "AAA "& periode & " " & annee & ".xls"
+'Sauvegarde de façon provisoire le fichier pour lui donner un nom
+    activeworkbook.SaveAs Filename:=str_cheminFichier, _
+        FileFormat:=xlNormal, Password:="", WriteResPassword:="", _
+        ReadOnlyRecommended:=False, CreateBackup:=False
+Application.ScreenUpdating = True
+
+'Envoi du fichier par Mail 
+        activeworkbook.sendmail _
+        Recipients:=servicemail, _
+        Subject:="AAA " & periode & " " & annee & ".xls"
+End Sub
